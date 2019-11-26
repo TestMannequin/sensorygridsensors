@@ -11,8 +11,9 @@ const acUnitSchema = new Schema({
   outletSensorId: String,
   electricityUsageId: String,
   onOffStatusId: String,
-  dailyHealthStatusId: String,
-
+  acHealthId: String,
+  energyUsageId: String
+  
 });
 
 const ACUnit = mongoose.model("ACUnit", acUnitSchema);

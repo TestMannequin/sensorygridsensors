@@ -1,5 +1,5 @@
 const db = require("../models");
-
+const sensorsController = require('./sensorsController');
 // Defining methods for the UsersController
 module.exports = {
   findAll: function(req, res) {
@@ -33,5 +33,18 @@ module.exports = {
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
-  }
+  },
+  getLatestValues: function(req, res) {
+    db.ACUnit
+        .find(req.params)
+        .then(dbModel => {
+            console.log("looking for sensor with Id " +  dbModel[0].acHealthId);
+            //res.json(dbModel);
+            newreq = req
+            newreq.params ={sensorId :  dbModel[0].acHealthId}
+            console.log(newreq);
+            sensorsController.getMultipleSensorValues(newreq,res);
+        })
+        .catch(err => res.status(422).json(err));
+  }  
 };

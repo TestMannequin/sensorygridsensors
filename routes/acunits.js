@@ -8,6 +8,9 @@ router.route("/")
   .post(acUnitsController.create)
   .patch(acUnitsController.update);
 
+router.route("/latest")
+  .get(acUnitsController.getLatestValues);
+
 
 
 module.exports = router;
