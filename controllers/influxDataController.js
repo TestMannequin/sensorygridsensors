@@ -36,10 +36,6 @@ module.exports = {
             'Accept' : 'application/csv'               
           }})
           .then((influxresult) => {
-            console.log(`statusCode: ${influxresult.status}`)
-            //console.log(influxresult)
-            
-
             //parse the influx CSV format into the Apex charts series format
             const output = []
             parse(influxresult.data, {
