@@ -1,9 +1,7 @@
 const router = require("express").Router();
-const sensorReadingsController = require("../controllers/sensorReadingsController");
+const influxDataController = require("../controllers/influxDataController");
 
-// Matches with "/api/users"
 router.route("/")
-  .get(sensorReadingsController.findAll)
-  .post(sensorReadingsController.create);
+  .get(influxDataController.findAll);
 
 module.exports = router;
