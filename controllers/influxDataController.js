@@ -168,6 +168,9 @@ module.exports = {
             return;
         }
         var measurementType = 'Energy';
+        
+        var ACUnit = 1;
+        if(req.query.ACUnit) ACUnit = req.query.ACUnit; //a user can have multiple AC units
 
         var query = `from(bucket: "SensoryGrid")
         |> range(start: -10d, stop: -3d) 
@@ -196,7 +199,11 @@ module.exports = {
                 if(timestamp)//if the timestamp is null, not a value to send
                 {
                     var value = record[9];
-                    value = (value-50)/2;//this is a very crude estimate as to the AC usage, this will become more sophisticated based on sensors and weather
+                    adjustment = 50;
+                    if(ACUnit===2)
+                        adjustment =100;
+                    value = (value-adjustment)/2;//this is a very crude estimate as to the AC usage, this will become more sophisticated based on sensors and weather
+                    
                     var timevalpair=[timestamp,value]
                     var topic = "AC Unit 7d Usage (kWh)"
                         
@@ -210,7 +217,8 @@ module.exports = {
                         newseries = {
                             'name': topic,
                             'data' : [timevalpair],
-                            'Efficiency' : Math.random() < 0.5 ? 'Good' : 'Poor' //this will be caculated
+                            'Efficiency' : Math.random() < 0.5 ? 'Good' : 'Poor', //this will be caculated
+                            'ACUnit': ACUnit
                         };
                         output.push(newseries)
                     }
